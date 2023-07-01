@@ -1,13 +1,10 @@
-import os
-import json
 import discord
 from discord.ext import commands
+import random
+import asyncio
 
-with open("config.json", "r") as file:
-    config = json.load(file)
-
-intents = discord.Intents.all()
-bot = commands.Bot(config["prefix"], intents=intents, help_command=DefaultHelpCommand())
+bot = commands.Bot(command_prefix='/')
+client = discord.Client()
 
 @bot.command(name='ping')
 async def ping(ctx):
@@ -149,6 +146,16 @@ async def ban(ctx, member: discord.Member):
     await member.ban(reason='Banned by moderator')
     await ctx.send(f'{member.mention} has been banned.')
 
+@bot.command()
+async def math(ctx, *, equation):
+    author = ctx.author
+    
+    try:
+        result = eval(equation)
+        await ctx.send(f'Equation from {author.mention}:\n{equation} = {result}')
+    except Exception as e:
+        await ctx.send(f'An error occurred while evaluating the equation from:{author.mention}:\n{str(e)}')
+
 @bot.command(name='info')
 async def info(ctx):
     embed = discord.Embed(title='Bot Commands and Functionality', color=discord.Color.blue())
@@ -167,4 +174,4 @@ async def info(ctx):
     embed.add_field(name='!rep-', value='Reputation -', inline=False)
     await ctx.send(embed=embed)
     
-bot.run(config["token"])
+bot.run('')
