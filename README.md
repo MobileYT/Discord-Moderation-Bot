@@ -1,2 +1,2 @@
 # Discord-Moderation-Bot
-Bot template for discord moderation
+Improve your Discord server with a powerful bot! Instant replies, message cleanup, pranks, mutes and more. Try it now!
