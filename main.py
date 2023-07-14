@@ -17,13 +17,18 @@ async def ping(ctx):
 
 @bot.command(name='clear')
 @commands.has_permissions(administrator=True)
-async def clear(ctx, amount='5'):
-
+async def clear(ctx, amount='5', member: discord.Member = None):
     if amount.lower() == 'all':
-        await ctx.channel.purge()
+        if member is not None:
+            await ctx.channel.purge(check=lambda msg: msg.author == member)
+        else:
+            await ctx.channel.purge()
     else:
         amount = int(amount)
-        await ctx.channel.purge(limit=amount + 1)
+        if member is not None:
+            await ctx.channel.purge(limit=amount + 1, check=lambda msg: msg.author == member)
+        else:
+            await ctx.channel.purge(limit=amount + 1)
 
 @bot.command(name='wp')
 async def wp(ctx):
